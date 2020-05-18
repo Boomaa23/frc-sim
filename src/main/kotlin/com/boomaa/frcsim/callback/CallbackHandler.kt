@@ -1,5 +1,6 @@
 package com.boomaa.frcsim.callback
 
+import com.boomaa.frcsim.utils.KeyUtil
 import org.lwjgl.glfw.*
 import org.lwjgl.opengl.GL46
 
@@ -9,10 +10,19 @@ class CallbackHandler(window: Long) {
 
     private val keys: GLFWKeyCallback? = GLFW.glfwSetKeyCallback(window, object : GLFWKeyCallback() {
         override fun invoke(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
-            if (action != GLFW.GLFW_KEY_DOWN) {
+            if (action == GLFW.GLFW_PRESS) {
                 try {
-                    Class.forName(KeyCallbacks.javaClass.name).getDeclaredMethod("key" + key.toChar()).invoke(KeyCallbacks)
+                    val method: String = "key" + when (key) {
+                        in GLFW.GLFW_KEY_F1..GLFW.GLFW_KEY_F9 -> "F" + (key - 241).toChar()
+                        in GLFW.GLFW_KEY_KP_0..GLFW.GLFW_KEY_KP_9 -> "KP" + (key - 272).toChar()
+                        in GLFW.GLFW_KEY_F10..GLFW.GLFW_KEY_F25,
+                            in GLFW.GLFW_KEY_KP_DECIMAL..GLFW.GLFW_KEY_MENU,
+                            in GLFW.GLFW_KEY_ESCAPE..GLFW.GLFW_KEY_PAUSE -> KeyUtil.decodeSpecialChars(key)
+                        else -> key.toChar()
+                    }
+                    Class.forName(KeyBindings.javaClass.name).getDeclaredMethod(method).invoke(KeyBindings)
                 } catch (ignored: NoSuchMethodException) {
+                    // Ignored to avoid throwing errors about missing methods for key bindings
                 }
             }
         }
@@ -28,7 +38,7 @@ class CallbackHandler(window: Long) {
                         GLFW.GLFW_MOUSE_BUTTON_MIDDLE -> "Middle"
                         else -> return
                     }
-                    Class.forName(MouseCallbacks.javaClass.name).getDeclaredMethod("mouse$btnName").invoke(MouseCallbacks)
+                    Class.forName(MouseBindings.javaClass.name).getDeclaredMethod("mouse$btnName").invoke(MouseBindings)
                 } catch (ignored: NoSuchMethodException) {
                 }
             }

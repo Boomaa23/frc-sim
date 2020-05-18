@@ -1,8 +1,9 @@
 package com.boomaa.frcsim
 
+import com.boomaa.frcsim.math.Vector3f
 import java.awt.Color
 
-class ColorVector(val red: Float, val green: Float, val blue: Float, val alpha: Float = 1F) {
+class ColorVector(val red: Float, val green: Float, val blue: Float, val alpha: Float = 1F): Vector3f(red, green, blue) {
     companion object Convert {
         fun fromAwtColor(color: Color): ColorVector {
             val red = color.red.toFloat()
