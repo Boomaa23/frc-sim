@@ -1,4 +1,6 @@
 package com.boomaa.frcsim.math
 
-class Vertex(var pos: Vector3f) {
+import com.boomaa.frcsim.ColorVector
+
+class Vertex(var pos: Vector3f, var color: ColorVector) {
 }

@@ -2,6 +2,7 @@ package com.boomaa.frcsim.callback
 
 import com.boomaa.frcsim.ColorVector
 import com.boomaa.frcsim.Display.main
+import com.boomaa.frcsim.render.MeshList
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.system.MemoryUtil
 import java.awt.*
@@ -16,6 +17,10 @@ object KeyBindings {
 
     fun keyS() {
         main.bgColor = ColorVector.fromAwtColor(Color.BLUE)
+    }
+
+    fun keyF1() {
+        MeshList.rectangle.destroy()
     }
 
     // Windowed Fullscreen

@@ -6,10 +6,11 @@ import java.awt.Color
 class ColorVector(val red: Float, val green: Float, val blue: Float, val alpha: Float = 1F): Vector3f(red, green, blue) {
     companion object Convert {
         fun fromAwtColor(color: Color): ColorVector {
-            val red = color.red.toFloat()
-            val blue = color.blue.toFloat()
-            val green = color.green.toFloat()
-            val alpha = color.alpha.toFloat()
+            // Must divide by 255 b/c Color values are ints 0-255, floats must be 0-1
+            val red = color.red.toFloat() / 255
+            val blue = color.blue.toFloat() / 255
+            val green = color.green.toFloat() / 255
+            val alpha = color.alpha.toFloat() / 255
             return ColorVector(red, green, blue, alpha)
         }
     }
@@ -18,6 +19,7 @@ class ColorVector(val red: Float, val green: Float, val blue: Float, val alpha: 
         val compareOther: ColorVector = when (other) {
             is Color -> fromAwtColor(other)
             is ColorVector -> other
+            is Vector3f -> ColorVector(other.x, other.y, other.z)
             else -> return false
         }
         return compareOther.red == this.red && compareOther.green == this.green && compareOther.blue == this.blue
