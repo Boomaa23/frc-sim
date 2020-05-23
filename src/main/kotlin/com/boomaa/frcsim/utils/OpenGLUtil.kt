@@ -6,6 +6,10 @@ import org.lwjgl.system.MemoryUtil
 import java.nio.FloatBuffer
 
 object OpenGLUtil {
+    fun vertexAttribArray(enable: Boolean, locationRange: IntRange) {
+        var hi = locationRange.toList()
+    }
+
     fun vertexAttribArray(enable: Boolean, vararg locations: Int) {
         for (loc in locations) {
             if (enable) {
@@ -26,25 +30,34 @@ object OpenGLUtil {
     }
 
     fun toFloatBuffer(vertices: Array<Vertex>, type: FloatBufferType): FloatBuffer {
-        val arrFloat = ArrayList<Float>(vertices.size * 3)
+        val arrFloat = ArrayList<Float>(vertices.size * type.size)
         for (vertex in vertices) {
-            if (type == FloatBufferType.POSITION) {
-                arrFloat.add(vertex.pos.x)
-                arrFloat.add(vertex.pos.y)
-                arrFloat.add(vertex.pos.z)
-            } else {
-                arrFloat.add(vertex.color.red)
-                arrFloat.add(vertex.color.green)
-                arrFloat.add(vertex.color.blue)
+            when (type) {
+                FloatBufferType.COLOR -> {
+                    arrFloat.add(vertex.pos.x)
+                    arrFloat.add(vertex.pos.y)
+                    arrFloat.add(vertex.pos.z)
+                }
+                FloatBufferType.POSITION -> {
+                    arrFloat.add(vertex.color.red)
+                    arrFloat.add(vertex.color.green)
+                    arrFloat.add(vertex.color.blue)
+                }
+                FloatBufferType.TEXTURE_COORD -> {
+                    arrFloat.add(vertex.textureCoord.x)
+                    arrFloat.add(vertex.textureCoord.y)
+                }
             }
+
+
         }
 
-        val buffer = MemoryUtil.memAllocFloat(vertices.size * 3)
+        val buffer = MemoryUtil.memAllocFloat(vertices.size * type.size)
         buffer.put(arrFloat.toFloatArray()).flip()
         return buffer
     }
 
-    enum class FloatBufferType {
-        COLOR, POSITION
+    enum class FloatBufferType(val size: Int) {
+        COLOR(3), POSITION(3), TEXTURE_COORD(2)
     }
 }

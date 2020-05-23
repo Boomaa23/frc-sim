@@ -1,6 +1,6 @@
 package com.boomaa.frcsim.callback
 
-import com.boomaa.frcsim.ColorVector
+import com.boomaa.frcsim.render.ColorVector
 import com.boomaa.frcsim.Display.main
 import com.boomaa.frcsim.render.MeshList
 import org.lwjgl.glfw.GLFW

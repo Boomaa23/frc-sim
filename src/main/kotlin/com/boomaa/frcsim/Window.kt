@@ -1,6 +1,9 @@
 package com.boomaa.frcsim
 
 import com.boomaa.frcsim.callback.CallbackHandler
+import com.boomaa.frcsim.render.ColorVector
+import com.boomaa.frcsim.render.MeshList
+import com.boomaa.frcsim.render.Renderer
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL46
@@ -48,8 +51,12 @@ class Window(title: String, val width: Int, val height: Int, var x: Int = -1, va
         GLFW.glfwPollEvents()
     }
 
-    fun render() {
-        GLFW.glfwSwapBuffers(window)
+    fun render(renderer: Renderer) {
+        try {
+            renderer.renderMesh(MeshList.rectangle)
+        } finally {
+            GLFW.glfwSwapBuffers(window)
+        }
     }
 
     fun destroy() {

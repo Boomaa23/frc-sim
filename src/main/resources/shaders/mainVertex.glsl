@@ -1,11 +1,19 @@
-#version 330 core
+#version 460 core
 
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 color;
+in vec3 position;
+in vec3 color;
+in vec2 texcoord;
 
-out vec4 passColor;
+out vec3 vertexColor;
+out vec2 textureCoord;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main() {
-    gl_Position = vec4(position, 1.0);
-    passColor = vec4(color, 1.0);
+    vertexColor = color;
+    textureCoord = texcoord;
+    mat4 mvp = projection * view * model;
+    gl_Position = mvp * vec4(position, 1.0);
 }

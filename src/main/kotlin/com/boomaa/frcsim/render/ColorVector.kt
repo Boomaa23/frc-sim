@@ -1,4 +1,4 @@
-package com.boomaa.frcsim
+package com.boomaa.frcsim.render
 
 import com.boomaa.frcsim.math.Vector3f
 import java.awt.Color

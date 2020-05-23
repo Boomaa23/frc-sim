@@ -1,6 +1,6 @@
 package com.boomaa.frcsim.math
 
-import com.boomaa.frcsim.ColorVector
+import com.boomaa.frcsim.render.ColorVector
 
-class Vertex(var pos: Vector3f, var color: ColorVector) {
+open class Vertex(var pos: Vector3f, var textureCoord: Vector2f, var color: ColorVector) {
 }
